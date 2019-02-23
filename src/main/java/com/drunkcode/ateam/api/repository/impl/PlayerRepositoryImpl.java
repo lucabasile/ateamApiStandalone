@@ -1,16 +1,12 @@
-package com.drunkcode.ateam.api.dao.impl;
+package com.drunkcode.ateam.api.repository.impl;
 
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -22,17 +18,17 @@ import com.drunkcode.ateam.api.repository.PlayerRepositoryCustom;
 @Repository
 @Transactional
 @Component
-public class PlayerRepositoryImpl  implements PlayerRepositoryCustom{
+public class PlayerRepositoryImpl extends AbstractRepositoryImpl implements PlayerRepositoryCustom{
 	
-	@PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
-    
-    public SessionFactory getSessionFactory() {
-         return entityManagerFactory.unwrap(SessionFactory.class);
-    }
-    protected final Session getCurrentSession() {
-   	 return getSessionFactory().getCurrentSession();
-   }
+//	@PersistenceUnit
+//    private EntityManagerFactory entityManagerFactory;
+//    
+//    public SessionFactory getSessionFactory() {
+//         return entityManagerFactory.unwrap(SessionFactory.class);
+//    }
+//    protected final Session getCurrentSession() {
+//   	 return getSessionFactory().getCurrentSession();
+//   }
 
 	@Transactional
 	public List<Player> findPlayersByRole(String role) {

@@ -1,4 +1,4 @@
-package com.drunkcode.ateam.api.dao.impl;
+package com.drunkcode.ateam.api.repository.impl;
 
 import java.util.List;
 
@@ -7,18 +7,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.drunkcode.ateam.api.dao.LeagueDayDao;
 import com.drunkcode.ateam.api.model.LeagueDay;
 import com.drunkcode.ateam.api.model.LeagueSeason;
+import com.drunkcode.ateam.api.repository.LeagueDayRepositoryCustom;
 @Repository
 @Component
 @Transactional
-public class LeagueDayDaoImpl extends AbstractHibernateDao<LeagueDay> implements LeagueDayDao {
-	
-	public LeagueDayDaoImpl(){
-		super();
-		setClazz(LeagueDay.class);
-	}
+public class LeagueDayRepositoryImpl extends AbstractRepositoryImpl implements LeagueDayRepositoryCustom {
 	
 	
 	public LeagueDay findByDayIndex(int dayIndex,LeagueSeason season) {

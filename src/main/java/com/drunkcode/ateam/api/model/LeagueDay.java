@@ -11,14 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import org.springframework.stereotype.Component;
-
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter @Setter
-@Component
 public class LeagueDay implements Serializable{
 	/**
 	 * 
