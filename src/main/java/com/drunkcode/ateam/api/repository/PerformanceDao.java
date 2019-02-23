@@ -1,4 +1,4 @@
-package com.drunkcode.ateam.api.dao;
+package com.drunkcode.ateam.api.repository;
 
 import java.util.List;
 

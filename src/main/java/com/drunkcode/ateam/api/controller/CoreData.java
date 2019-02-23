@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.drunkcode.ateam.api.dao.PerformanceDao;
 import com.drunkcode.ateam.api.model.Performance;
 import com.drunkcode.ateam.api.model.Player;
+import com.drunkcode.ateam.api.repository.PerformanceDao;
 import com.drunkcode.ateam.api.repository.PlayerRepository;
 
 

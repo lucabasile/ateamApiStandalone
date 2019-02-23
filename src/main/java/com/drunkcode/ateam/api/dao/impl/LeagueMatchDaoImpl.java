@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.drunkcode.ateam.api.dao.LeagueMatchDao;
 import com.drunkcode.ateam.api.model.LeagueDay;
 import com.drunkcode.ateam.api.model.LeagueMatch;
 import com.drunkcode.ateam.api.model.LeagueSeason;
 import com.drunkcode.ateam.api.model.Team;
+import com.drunkcode.ateam.api.repository.LeagueMatchDao;
 @Repository
 @Component
 @Transactional

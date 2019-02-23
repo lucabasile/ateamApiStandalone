@@ -20,16 +20,6 @@ import com.drunkcode.ateam.api.repository.PlayerRepositoryCustom;
 @Component
 public class PlayerRepositoryImpl extends AbstractRepositoryImpl implements PlayerRepositoryCustom{
 	
-//	@PersistenceUnit
-//    private EntityManagerFactory entityManagerFactory;
-//    
-//    public SessionFactory getSessionFactory() {
-//         return entityManagerFactory.unwrap(SessionFactory.class);
-//    }
-//    protected final Session getCurrentSession() {
-//   	 return getSessionFactory().getCurrentSession();
-//   }
-
 	@Transactional
 	public List<Player> findPlayersByRole(String role) {
 		CriteriaBuilder builder = getCurrentSession().getCriteriaBuilder();

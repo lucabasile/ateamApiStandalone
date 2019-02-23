@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.drunkcode.ateam.api.dao.LeagueSeasonDao;
 import com.drunkcode.ateam.api.model.LeagueSeason;
+import com.drunkcode.ateam.api.repository.LeagueSeasonDao;
 
 @Repository
 @Component

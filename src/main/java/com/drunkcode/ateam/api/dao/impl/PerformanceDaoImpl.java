@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.drunkcode.ateam.api.dao.LeagueSeasonDao;
-import com.drunkcode.ateam.api.dao.PerformanceDao;
 import com.drunkcode.ateam.api.model.LeagueDay;
 import com.drunkcode.ateam.api.model.LeagueSeason;
 import com.drunkcode.ateam.api.model.Performance;
 import com.drunkcode.ateam.api.model.Player;
 import com.drunkcode.ateam.api.repository.LeagueDayRepository;
+import com.drunkcode.ateam.api.repository.LeagueSeasonDao;
+import com.drunkcode.ateam.api.repository.PerformanceDao;
 import com.drunkcode.ateam.api.repository.PlayerRepository;
 
 

@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.drunkcode.ateam.api.dao.TeamDao;
 import com.drunkcode.ateam.api.model.Team;
+import com.drunkcode.ateam.api.repository.TeamDao;
 
 @Repository
 @Component

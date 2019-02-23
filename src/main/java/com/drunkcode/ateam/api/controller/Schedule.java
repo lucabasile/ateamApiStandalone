@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.drunkcode.ateam.api.dao.LeagueMatchDao;
-import com.drunkcode.ateam.api.dao.LeagueSeasonDao;
 import com.drunkcode.ateam.api.model.LeagueMatch;
 import com.drunkcode.ateam.api.model.LeagueSeason;
 import com.drunkcode.ateam.api.repository.LeagueDayRepository;
+import com.drunkcode.ateam.api.repository.LeagueMatchDao;
+import com.drunkcode.ateam.api.repository.LeagueSeasonDao;
 
 
 
