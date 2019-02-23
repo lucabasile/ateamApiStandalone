@@ -3,6 +3,9 @@ HELP.md
 /build/
 !gradle/wrapper/gradle-wrapper.jar
 
+### exclude .class files ###
+/bin/
+
 ### STS ###
 .apt_generated
 .classpath
