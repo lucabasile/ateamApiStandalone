@@ -2,10 +2,8 @@ package com.drunkcode.ateam.api.model;
 
 import java.io.Serializable;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 import org.springframework.stereotype.Component;
 
@@ -19,22 +17,10 @@ public class Performance implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 2966976164776133522L;
-	@Id
-	@ManyToOne
-	@JoinColumn(name="startingYear")
-	LeagueSeason 		season;
-	@Id
-	@ManyToOne
-	@JoinColumn(name="dayId")
-	LeagueDay 		day;
-	@Id
-	@ManyToOne
-	@JoinColumn(name="matchId")
-	LeagueMatch		match;
-	@Id
-	@ManyToOne
-	@JoinColumn(name="player")
-	Player		player;
+	
+	@EmbeddedId
+	PerformanceID performanceID;
+	
 	boolean 	isHomeMatch;
 	double		evaluation;
 	int			goalsScored;
