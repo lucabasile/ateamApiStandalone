@@ -1,4 +1,4 @@
-package com.drunkcode.ateam.api.dao.impl;
+package com.drunkcode.ateam.api.repository.impl;
 
 import java.util.List;
 
@@ -8,18 +8,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drunkcode.ateam.api.model.Team;
-import com.drunkcode.ateam.api.repository.TeamDao;
+import com.drunkcode.ateam.api.repository.TeamRepositoryCustom;
 
 @Repository
 @Component
 @Transactional
-public class TeamDaoImpl extends AbstractHibernateDao<Team> implements TeamDao{
-	public TeamDaoImpl(){
-		
-		super();
-		
-		setClazz(Team.class);
-	}
+public class TeamRepositoryImpl extends AbstractRepositoryImpl implements TeamRepositoryCustom{
+	
 
 	@Override
 	public Team findTeamByName(String name) {

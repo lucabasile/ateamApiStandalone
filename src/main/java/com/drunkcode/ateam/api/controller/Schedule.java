@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.drunkcode.ateam.api.model.LeagueMatch;
 import com.drunkcode.ateam.api.model.LeagueSeason;
 import com.drunkcode.ateam.api.repository.LeagueDayRepository;
-import com.drunkcode.ateam.api.repository.LeagueMatchDao;
-import com.drunkcode.ateam.api.repository.LeagueSeasonDao;
+import com.drunkcode.ateam.api.repository.LeagueMatchRepository;
+import com.drunkcode.ateam.api.repository.LeagueSeasonRepository;
 
 
 
@@ -22,24 +22,24 @@ import com.drunkcode.ateam.api.repository.LeagueSeasonDao;
 public class Schedule {
 	
 	@Autowired
-	LeagueMatchDao matchDao;
+	LeagueMatchRepository leagueMatchRepository;
 	
 	@Autowired
-	LeagueDayRepository dayDao;
+	LeagueDayRepository leagueDayRepository;
 	
 	@Autowired
-	LeagueSeasonDao seasonDao;
+	LeagueSeasonRepository leagueSeasonRepository;
 	
 	@RequestMapping(value="/{day}",method = RequestMethod.GET)
 	public @ResponseBody List<LeagueMatch> getSchedule(@PathVariable int day){
-		LeagueSeason season = seasonDao.getCurrentSeason();
-		return matchDao.getDailyMatches(dayDao.findByDayIndex(day, season));
+		LeagueSeason season = leagueSeasonRepository.getCurrentSeason();
+		return leagueMatchRepository.getDailyMatches(leagueDayRepository.findByDayIndex(day, season));
 		
 	}
 	
 	@RequestMapping(value="/nextMatch",method = RequestMethod.GET)
 	public @ResponseBody LeagueMatch getNextMatch(){
-		LeagueMatch nextMatch =matchDao.getNearestMatch();
+		LeagueMatch nextMatch =leagueMatchRepository.getNearestMatch();
 		return nextMatch;
 	}
 }

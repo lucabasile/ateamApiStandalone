@@ -1,4 +1,4 @@
-package com.drunkcode.ateam.api.dao.impl;
+package com.drunkcode.ateam.api.repository.impl;
 
 import java.util.Calendar;
 import java.util.List;
@@ -14,17 +14,12 @@ import com.drunkcode.ateam.api.model.LeagueDay;
 import com.drunkcode.ateam.api.model.LeagueMatch;
 import com.drunkcode.ateam.api.model.LeagueSeason;
 import com.drunkcode.ateam.api.model.Team;
-import com.drunkcode.ateam.api.repository.LeagueMatchDao;
+import com.drunkcode.ateam.api.repository.LeagueMatchRepositoryCustom;
 @Repository
 @Component
 @Transactional
-public class LeagueMatchDaoImpl extends AbstractHibernateDao<LeagueMatch> implements LeagueMatchDao {
+public class LeagueMatchRepositoryImpl extends AbstractRepositoryImpl implements LeagueMatchRepositoryCustom  {
 	
-	public LeagueMatchDaoImpl(){
-		super();
-		setClazz(LeagueMatch.class);
-		
-	}
 
 	@Override
 	public LeagueMatch getNearestMatch() {

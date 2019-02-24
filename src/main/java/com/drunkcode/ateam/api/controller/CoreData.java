@@ -8,14 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.drunkcode.ateam.api.model.Performance;
 import com.drunkcode.ateam.api.model.Player;
-import com.drunkcode.ateam.api.repository.PerformanceDao;
+import com.drunkcode.ateam.api.repository.PerformanceRepository;
 import com.drunkcode.ateam.api.repository.PlayerRepository;
 
 
@@ -27,7 +26,7 @@ public class CoreData {
 	PlayerRepository playerRepository;
 	
 	@Autowired
-	PerformanceDao performanceDao;
+	PerformanceRepository performanceRepository;
 	
 	@Transactional
 	@GetMapping(value="/{role}")
@@ -43,13 +42,13 @@ public class CoreData {
 	} 
 	
 	@Transactional
-	@RequestMapping(value="/performances",method = RequestMethod.GET)
+	@GetMapping(value="/performances")
 	public @ResponseBody List<Performance> getPerformances(@RequestParam("startingDay") int startingDay,@RequestParam("endingDay") int endingDay,@RequestParam("ids") Long[] ids){
 		
 		List<Long> idList = new ArrayList<Long>();
 		for(Long id : ids)idList.add(id);
 		 
 			
-		return performanceDao.getPerformancesByParameters(startingDay, endingDay, idList);
+		return performanceRepository.getPerformancesByParameters(startingDay, endingDay, idList);
 	} 
 }

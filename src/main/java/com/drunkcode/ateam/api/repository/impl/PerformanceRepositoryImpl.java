@@ -1,4 +1,4 @@
-package com.drunkcode.ateam.api.dao.impl;
+package com.drunkcode.ateam.api.repository.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,40 +14,35 @@ import com.drunkcode.ateam.api.model.LeagueSeason;
 import com.drunkcode.ateam.api.model.Performance;
 import com.drunkcode.ateam.api.model.Player;
 import com.drunkcode.ateam.api.repository.LeagueDayRepository;
-import com.drunkcode.ateam.api.repository.LeagueSeasonDao;
-import com.drunkcode.ateam.api.repository.PerformanceDao;
+import com.drunkcode.ateam.api.repository.LeagueSeasonRepository;
+import com.drunkcode.ateam.api.repository.PerformanceRepositoryCustom;
 import com.drunkcode.ateam.api.repository.PlayerRepository;
 
 
 @Repository
 @Component
 @Transactional
-public class PerformanceDaoImpl extends AbstractHibernateDao<Performance>implements PerformanceDao{
+public class PerformanceRepositoryImpl extends AbstractRepositoryImpl implements PerformanceRepositoryCustom {
 	
 	@Autowired
-	PlayerRepository playerDao;
+	PlayerRepository playerRepository;
 	
 	@Autowired
-	LeagueDayRepository dayDao;
+	LeagueDayRepository leagueDayRepository;
 	
 	@Autowired
-	LeagueSeasonDao seasonDao;
+	LeagueSeasonRepository leagueSeasonDao;
 	
-	public PerformanceDaoImpl(){
-		super();
-		
-		setClazz(Performance.class);
-	}
 	
 	@Override
 	public List<Performance> getPerformancesByParameters(int startingDay,int endingDay,List<Long> ids){
 		List<Performance> result = new ArrayList<Performance>();
 		
-		List<Player> players =playerDao.findPlayersByListOfId(ids);
+		List<Player> players =playerRepository.findPlayersByListOfId(ids);
 		List<Integer> dayIndexes= new ArrayList<Integer>();
-		LeagueSeason season = seasonDao.getCurrentSeason();
+		LeagueSeason season = leagueSeasonDao.getCurrentSeason();
 		for(int i =startingDay;i<=endingDay;i++) dayIndexes.add(i);
-		List<LeagueDay> days=dayDao.findByDayIndex(dayIndexes, season);
+		List<LeagueDay> days=leagueDayRepository.findByDayIndex(dayIndexes, season);
 		for(Player player: players){
 			for(LeagueDay day : days){
 				result.add(getPerfomanceByDayAndPlayer(day,player));

@@ -1,4 +1,4 @@
-package com.drunkcode.ateam.api.dao.impl;
+package com.drunkcode.ateam.api.repository.impl;
 
 import java.util.Calendar;
 import java.util.List;
@@ -9,18 +9,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drunkcode.ateam.api.model.LeagueSeason;
-import com.drunkcode.ateam.api.repository.LeagueSeasonDao;
+import com.drunkcode.ateam.api.repository.LeagueSeasonRepositoryCustom;
 
 @Repository
 @Component
 @Transactional
-public class LeagueSeasonDaoImpl extends AbstractHibernateDao<LeagueSeason> implements LeagueSeasonDao{
-	public LeagueSeasonDaoImpl(){
-		
-		super();
-		
-		setClazz(LeagueSeason.class);
-	}
+public class LeagueSeasonRepositoryImpl extends AbstractRepositoryImpl implements LeagueSeasonRepositoryCustom{
+
 
 	@Override
 	public LeagueSeason getCurrentSeason() {
