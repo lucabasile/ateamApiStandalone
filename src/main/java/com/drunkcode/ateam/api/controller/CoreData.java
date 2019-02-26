@@ -1,6 +1,7 @@
 package com.drunkcode.ateam.api.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,4 +52,11 @@ public class CoreData {
 			
 		return performanceRepository.getPerformancesByParameters(startingDay, endingDay, idList);
 	} 
+	
+	
+	@GetMapping("/id/{listOfIds}")
+	public @ResponseBody List<Player> getByIds(@PathVariable List<Long> listOfIds){
+	
+		return playerRepository.findAllById(listOfIds);
+	}
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import com.drunkcode.ateam.api.model.Player;
 
 public interface PlayerRepositoryCustom {
-public List<Player> findPlayersByRole(String role);
 	
-	public List<Player> findPlayersByListOfId(List<Long> ids);
+	public List<Player> findPlayersByRole(String role);
 }

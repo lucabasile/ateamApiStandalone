@@ -38,7 +38,7 @@ public class PerformanceRepositoryImpl extends AbstractRepositoryImpl implements
 	public List<Performance> getPerformancesByParameters(int startingDay,int endingDay,List<Long> ids){
 		List<Performance> result = new ArrayList<Performance>();
 		
-		List<Player> players =playerRepository.findPlayersByListOfId(ids);
+		List<Player> players =playerRepository.findAllById(ids);
 		List<Integer> dayIndexes= new ArrayList<Integer>();
 		LeagueSeason season = leagueSeasonDao.getCurrentSeason();
 		for(int i =startingDay;i<=endingDay;i++) dayIndexes.add(i);
