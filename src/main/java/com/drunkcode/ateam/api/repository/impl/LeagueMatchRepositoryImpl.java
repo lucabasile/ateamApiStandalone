@@ -3,6 +3,10 @@ package com.drunkcode.ateam.api.repository.impl;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -13,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.drunkcode.ateam.api.model.LeagueDay;
 import com.drunkcode.ateam.api.model.LeagueMatch;
 import com.drunkcode.ateam.api.model.LeagueSeason;
+import com.drunkcode.ateam.api.model.Player;
 import com.drunkcode.ateam.api.model.Team;
 import com.drunkcode.ateam.api.repository.LeagueMatchRepositoryCustom;
 @Repository
@@ -33,7 +38,12 @@ public class LeagueMatchRepositoryImpl extends AbstractRepositoryImpl implements
 
 	@Override
 	public List<LeagueMatch> getDailyMatches(LeagueDay day) {
-		List result = getCurrentSession().createCriteria(LeagueMatch.class).add(Restrictions.eqOrIsNull("day", day)).list();
+		CriteriaBuilder builder = getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<LeagueMatch> criteria = builder.createQuery(LeagueMatch.class);
+		Root<LeagueMatch> leagueMatch = criteria.from(LeagueMatch.class);
+		getCurrentSession().beginTransaction();
+		List<LeagueMatch> result = getCurrentSession().createQuery(criteria.where(builder.equal(leagueMatch.get("day"),day))).list();
+		//List result = getCurrentSession().createCriteria(LeagueMatch.class).add(Restrictions.eqOrIsNull("day", day)).list();
 		if(result.size()>0)
 			return result;
 		else
@@ -42,15 +52,21 @@ public class LeagueMatchRepositoryImpl extends AbstractRepositoryImpl implements
 	
 	@Override
 	public Calendar[]  getStartinAndEndingMatchesDatesBySeason(LeagueSeason season){
-		List result = getCurrentSession().
-				createCriteria(LeagueMatch.class).
-					add(Restrictions.eq("season",season)).
-					setProjection(Projections.projectionList().add(Projections.groupProperty("date"))).list();
+		CriteriaBuilder builder = getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<LeagueMatch> criteria = builder.createQuery(LeagueMatch.class);
+		Root<LeagueMatch> leagueMatch = criteria.from(LeagueMatch.class);
+		getCurrentSession().beginTransaction();
+		
+		List<LeagueMatch> result = getCurrentSession().createQuery(criteria.where(builder.equal(leagueMatch.get("season"),season)).groupBy(leagueMatch.get("date"))).list();
+//		List result = getCurrentSession().
+//				createCriteria(LeagueMatch.class).
+//					add(Restrictions.eq("season",season)).
+//					setProjection(Projections.projectionList().add(Projections.groupProperty("date"))).list();
 		
 		if(result.size()>0){
 			Calendar[] dates = new Calendar[2];
-			Calendar first =(Calendar)result.get(0);
-			Calendar last = (Calendar)result.get(result.size()-1);
+			Calendar first =(Calendar)result.get(0).getDate();
+			Calendar last = (Calendar)result.get(result.size()-1).getDate();
 			dates[0]=first;
 			dates[1]=last;
 			
@@ -62,11 +78,28 @@ public class LeagueMatchRepositoryImpl extends AbstractRepositoryImpl implements
 	}
 	@Override
 	public LeagueMatch findMatch(LeagueDay day,LeagueSeason season,Team team){
-		List result = getCurrentSession().createCriteria(LeagueMatch.class)
-				.add(Restrictions.eqOrIsNull("day", day))
-				.add(Restrictions.eq("season", season))
-				.add(Restrictions.or(Restrictions.eqOrIsNull("homeTeam", team),Restrictions.eq("awayTeam", team)))
-				.list();
+		CriteriaBuilder builder = getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<LeagueMatch> cq = builder.createQuery(LeagueMatch.class);
+		Root<LeagueMatch> leagueMatch = cq.from(LeagueMatch.class);
+		getCurrentSession().beginTransaction();
+		List<LeagueMatch> result =getCurrentSession().createQuery(cq.where(builder.and(builder.and(
+				builder.equal(leagueMatch.get("season"),season), builder.equal(leagueMatch.get("day"),day))),
+				builder.or(builder.equal(leagueMatch.get("homeTeam"),team),
+						builder.equal(leagueMatch.get("awayTeam"), team)))).list();
+//		criteria.where(builder.equal(leagueMatch.get("season"),season))
+//		List<LeagueMatch> result = getCurrentSession().createQuery(criteria
+//				.where(builder.and(builder.equal(leagueMatch.get("season"),season)).a);
+//				.where(builder.or(
+//						builder.equal(leagueMatch.get("homeTeam"),team),
+//						builder.equal(leagueMatch.get("awayTeam"), team)
+//						)).
+//				where(builder.equal(leagueMatch.get("day"),day))
+//						).list();
+//		List result = getCurrentSession().createCriteria(LeagueMatch.class)
+//				.add(Restrictions.eqOrIsNull("day", day))
+//				.add(Restrictions.eq("season", season))
+//				.add(Restrictions.or(Restrictions.eqOrIsNull("homeTeam", team),Restrictions.eq("awayTeam", team)))
+//				.list();
 		if(result.size()>0)
 			return (LeagueMatch)result.get(0);
 		else

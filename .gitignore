@@ -5,6 +5,7 @@ HELP.md
 
 ### exclude .class files ###
 /bin/
+.class
 
 ### STS ###
 .apt_generated

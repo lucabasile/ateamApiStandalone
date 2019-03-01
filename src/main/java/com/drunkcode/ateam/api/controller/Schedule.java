@@ -30,9 +30,10 @@ public class Schedule {
 	@Autowired
 	LeagueSeasonRepository leagueSeasonRepository;
 	
-	@RequestMapping(value="/{day}",method = RequestMethod.GET)
-	public @ResponseBody List<LeagueMatch> getSchedule(@PathVariable int day){
-		LeagueSeason season = leagueSeasonRepository.getCurrentSeason();
+	@RequestMapping(value="/{startingYear}/{day}",method = RequestMethod.GET)
+	public @ResponseBody List<LeagueMatch> getSchedule(@PathVariable int day,@PathVariable Integer startingYear){
+		
+		LeagueSeason season = leagueSeasonRepository.findByStartingYear(Long.valueOf(startingYear));
 		return leagueMatchRepository.getDailyMatches(leagueDayRepository.findByDayIndex(day, season));
 		
 	}

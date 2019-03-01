@@ -3,12 +3,14 @@ package com.drunkcode.ateam.api.model;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -45,5 +47,8 @@ public class Player implements Serializable{
 	int			daysOut;
 	private Date updatedAt;
 	private Date createdAt;
+	@ManyToMany(mappedBy="players")
+//	@JoinColumn(name="teamId_p")
+	List<LeagueMatch> matches;
 	
 }
