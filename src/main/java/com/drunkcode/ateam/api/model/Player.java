@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,6 +49,7 @@ public class Player implements Serializable{
 	int			daysOut;
 	private Date updatedAt;
 	private Date createdAt;
+	@JsonIgnore
 	@ManyToMany(mappedBy="players")
 //	@JoinColumn(name="teamId_p")
 	List<LeagueMatch> matches;
