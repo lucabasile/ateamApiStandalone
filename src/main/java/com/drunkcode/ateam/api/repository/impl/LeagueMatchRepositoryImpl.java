@@ -1,7 +1,9 @@
 package com.drunkcode.ateam.api.repository.impl;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,9 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.drunkcode.ateam.api.model.LeagueDay;
 import com.drunkcode.ateam.api.model.LeagueMatch;
 import com.drunkcode.ateam.api.model.LeagueSeason;
-import com.drunkcode.ateam.api.model.Player;
 import com.drunkcode.ateam.api.model.Team;
 import com.drunkcode.ateam.api.repository.LeagueMatchRepositoryCustom;
+
+
 @Repository
 @Component
 @Transactional
@@ -56,17 +59,20 @@ public class LeagueMatchRepositoryImpl extends AbstractRepositoryImpl implements
 		CriteriaQuery<LeagueMatch> criteria = builder.createQuery(LeagueMatch.class);
 		Root<LeagueMatch> leagueMatch = criteria.from(LeagueMatch.class);
 		getCurrentSession().beginTransaction();
-		
-		List<LeagueMatch> result = getCurrentSession().createQuery(criteria.where(builder.equal(leagueMatch.get("season"),season)).groupBy(leagueMatch.get("date"))).list();
+
+		List<LeagueMatch> result = getCurrentSession().createQuery(criteria.where(builder.equal(leagueMatch.get("season"),season))).list();
+
 //		List result = getCurrentSession().
 //				createCriteria(LeagueMatch.class).
 //					add(Restrictions.eq("season",season)).
 //					setProjection(Projections.projectionList().add(Projections.groupProperty("date"))).list();
 		
 		if(result.size()>0){
+			List<Calendar> alldates = result.stream().map(LeagueMatch::getDate).collect(Collectors.toList());
+
 			Calendar[] dates = new Calendar[2];
-			Calendar first =(Calendar)result.get(0).getDate();
-			Calendar last = (Calendar)result.get(result.size()-1).getDate();
+			Calendar first =Collections.max(alldates);;
+			Calendar last = Collections.min(alldates);
 			dates[0]=first;
 			dates[1]=last;
 			
