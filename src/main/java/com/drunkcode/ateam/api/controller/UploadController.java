@@ -22,6 +22,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -324,7 +325,7 @@ public class UploadController {
     	
     }
     
-    @RequestMapping(value="/dayPerformancesUpload", method=RequestMethod.POST )
+    @PostMapping("/dayPerformances")
     public @ResponseBody String uploadPerformances(@RequestParam("file") MultipartFile file, @RequestParam("day") int dayNumber,@RequestParam("seasonStartingYear") int seasonStartingYear,@RequestParam("startingRow") int startingRow,@RequestParam("fieldsString") String fieldsString ) throws FileNotFoundException, IOException{
     	
     	String fileName = file.getOriginalFilename();
