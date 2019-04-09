@@ -70,7 +70,7 @@ public class UploadController {
 	
 	
 //	final String BASE_FILE_PATH="/Users/lucabasile/Downloads/temporaryFiles";
-	final String BASE_FILE_PATH="C:/test_tmp/temporaryFiles";
+	final String BASE_FILE_PATH="/home/luke/tmp/fanta-tmp";
 	
 	@Autowired
 	PlayerRepository playerRepository;
@@ -188,7 +188,13 @@ public class UploadController {
 			throws IOException, FileNotFoundException {
 		String endFilePath=null;
 		String fileName=file.getOriginalFilename();
-		endFilePath= BASE_FILE_PATH+ fileName;
+
+		File directory = new File(BASE_FILE_PATH);
+		if (! directory.exists()){
+			directory.mkdirs();
+		}
+
+		endFilePath= BASE_FILE_PATH+File.separator+ fileName;
 		byte[] bytes = file.getBytes();
 		BufferedOutputStream buffStream = 
 		        new BufferedOutputStream(new FileOutputStream(new File(endFilePath)));
@@ -227,15 +233,15 @@ public class UploadController {
         }
     }
     
-    @RequestMapping(value="/uploadVoti")
+  /*  @RequestMapping(value="/uploadVoti")
     public String uploadVoti(){
     	return "uploadPerformances";
-    }
+    }*/
     
-    @RequestMapping(value="/createSeason")
+   /* @RequestMapping(value="/createSeason")
     public String createSeason(){
     	return "createSeason";
-    }
+    }*/
     
     @RequestMapping(value="/schedule", method=RequestMethod.POST )
     public @ResponseBody String schedule(@RequestParam("file") MultipartFile file, @RequestParam("startingYear") int startingYear){

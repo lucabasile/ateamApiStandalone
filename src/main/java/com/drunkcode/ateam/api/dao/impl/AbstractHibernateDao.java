@@ -22,17 +22,17 @@ public abstract class AbstractHibernateDao<T extends Serializable> implements IO
     
     
     //iniettiamo direttamente la sessionFactory nel Dao
-    //non sono più necessari gli hibernateTemplate che si usavano prima in Spring
+    //non sono piÃ¹ necessari gli hibernateTemplate che si usavano prima in Spring
     @PersistenceUnit
     private EntityManagerFactory entityManagerFactory;
-    
+
     public SessionFactory getSessionFactory() {
          return entityManagerFactory.unwrap(SessionFactory.class);
     }
 
     // API
     
-    //per operare correttamente ogni costruttore dovrà provvedere a chiamare questo metodo
+    //per operare correttamente ogni costruttore dovrï¿½ provvedere a chiamare questo metodo
     protected final void setClazz(final Class<T> clazzToSet) {
         clazz = Preconditions.checkNotNull(clazzToSet);
     }
