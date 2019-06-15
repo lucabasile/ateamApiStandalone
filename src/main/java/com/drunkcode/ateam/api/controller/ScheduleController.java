@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,7 +20,7 @@ import com.drunkcode.ateam.api.repository.LeagueSeasonRepository;
 
 @Controller
 @RequestMapping("/scheduleData")
-public class Schedule {
+public class ScheduleController {
 	
 	@Autowired
 	LeagueMatchRepository leagueMatchRepository;
@@ -43,4 +44,10 @@ public class Schedule {
 		LeagueMatch nextMatch =leagueMatchRepository.getNearestMatch();
 		return nextMatch;
 	}
+	
+	@PutMapping("/{startingYear}/{day}")
+	public String updateDay(){
+		return null;	
+	}
+	
 }

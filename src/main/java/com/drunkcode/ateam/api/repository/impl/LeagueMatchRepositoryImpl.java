@@ -31,7 +31,12 @@ public class LeagueMatchRepositoryImpl extends AbstractRepositoryImpl implements
 
 	@Override
 	public LeagueMatch getNearestMatch() {
-		List result = getCurrentSession().createCriteria(LeagueMatch.class).add(Restrictions.ge("date",Calendar.getInstance())).addOrder(Order.asc("date")).list();
+		CriteriaBuilder builder = getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<LeagueMatch> criteria = builder.createQuery(LeagueMatch.class);
+		Root<LeagueMatch> leagueMatch = criteria.from(LeagueMatch.class);
+		getCurrentSession().beginTransaction();
+		List<LeagueMatch> result =getCurrentSession().createQuery(criteria.where(builder.greaterThan(leagueMatch.get("date"),Calendar.getInstance()))).list();
+		//List result = getCurrentSession().createCriteria(LeagueMatch.class).add(Restrictions.ge("date",Calendar.getInstance())).addOrder(Order.asc("date")).list();
 		if(result.size()>0)
 			return (LeagueMatch)result.get(0);
 		else

@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.drunkcode.ateam.api.VO.PlayerVO;
 import com.drunkcode.ateam.api.model.LeagueDay;
 import com.drunkcode.ateam.api.model.LeagueMatch;
 import com.drunkcode.ateam.api.model.LeagueSeason;
@@ -30,7 +32,7 @@ import com.drunkcode.ateam.api.repository.PlayerRepository;
 
 @RestController
 @RequestMapping("/players")
-public class CoreData {
+public class PlayersController {
 	
 	@Autowired
 	PlayerRepository playerRepository;
@@ -49,15 +51,27 @@ public class CoreData {
 	
 	@Transactional
 	@GetMapping(value="/{role}")
-	public List<Player> getAllPlayers(@PathVariable String role){
+	public List<PlayerVO> getAllPlayers(@PathVariable String role){
 		List<Player> requestedPlayers;
 		if("*".equalsIgnoreCase(role)){
 			requestedPlayers = playerRepository.findAll();
 		}else{
 			requestedPlayers= playerRepository.findPlayersByRole(role);
 		}
-			
-		return requestedPlayers;
+		
+		Mapper mapper = new DozerBeanMapper();
+		
+		List<PlayerVO> players = new ArrayList<>();
+		
+		for (Player player : requestedPlayers) {
+			PlayerVO rezPlayer= new PlayerVO();
+			mapper.map(player, rezPlayer);
+			rezPlayer.setTeamName(player.getTeam().getName());
+			rezPlayer.setTeamId(String.valueOf(player.getTeam().getTeamId()));
+			players.add(rezPlayer);
+		}
+		
+		return players;
 	} 
 	
 	@Transactional
@@ -67,7 +81,7 @@ public class CoreData {
 		List<Long> idList = new ArrayList<Long>();
 		for(Long id : ids)idList.add(id);
 		 
-List<Performance> result = new ArrayList<Performance>();
+		List<Performance> result = new ArrayList<Performance>();
 		
 		List<Player> players =playerRepository.findByPlayerIdIn(idList);
 		List<Integer> dayIndexes= new ArrayList<Integer>();
