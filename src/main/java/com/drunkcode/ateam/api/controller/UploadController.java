@@ -22,6 +22,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,7 +70,9 @@ public class UploadController {
 	
 	
 //	final String BASE_FILE_PATH="/Users/lucabasile/Downloads/temporaryFiles";
-	final String BASE_FILE_PATH="/home/luke/tmp/fanta-tmp";
+
+	@Value("${ATEAMAPI_TEMP}")
+	String BASE_FILE_PATH;//"/home/luke/tmp/fanta-tmp";
 	
 	@Autowired
 	PlayerRepository playerRepository;
