@@ -7,15 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import com.drunkcode.ateam.api.model.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -30,13 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.drunkcode.ateam.api.model.LeagueDay;
-import com.drunkcode.ateam.api.model.LeagueMatch;
-import com.drunkcode.ateam.api.model.LeagueSeason;
-import com.drunkcode.ateam.api.model.Performance;
-import com.drunkcode.ateam.api.model.PerformanceID;
-import com.drunkcode.ateam.api.model.Player;
-import com.drunkcode.ateam.api.model.Team;
 import com.drunkcode.ateam.api.repository.LeagueDayRepository;
 import com.drunkcode.ateam.api.repository.LeagueMatchRepository;
 import com.drunkcode.ateam.api.repository.LeagueSeasonRepository;
@@ -288,7 +276,8 @@ public class UploadController {
                 		System.out.println("day :"+day.getDayIndex()+" ,day date :"+row.getCell(0).getStringCellValue());
                 		matchDate.setTime(dateFormat.parse(row.getCell(0).getStringCellValue()));
                 		match.setDate(matchDate);
-                		match.setSeason(season);
+						LeagueMatchId matchId=new LeagueMatchId();
+						matchId.setYear(season);
                 		String[] teams = row.getCell(1).getStringCellValue().split("-");
                 		Team homeTeam = teamRepository.findTeamByName(teams[0].trim());
                 		if(homeTeam==null) {
@@ -296,18 +285,19 @@ public class UploadController {
                 			homeTeam.setName(teams[0].trim());
                 			teamRepository.save(homeTeam);
                 		}
-                		match.setHomeTeam(homeTeam);
+						matchId.setHomeTeam(homeTeam);
                 		Team awayTeam = teamRepository.findTeamByName(teams[1].trim());
                 		if(awayTeam==null) {
                 			awayTeam= new Team();
                 			awayTeam.setName(teams[1].trim());
                 			teamRepository.save(awayTeam);
                 		}
-                		match.setAwayTeam(awayTeam);
+						matchId.setAwayTeam(awayTeam);
                 		String[] matchGoals=row.getCell(2).getStringCellValue().split("-");
             			match.setHomeGoals(Integer.valueOf(matchGoals.length==0?"0":matchGoals[0]));
             			match.setAwayGoals(Integer.valueOf(matchGoals.length==0?"0":matchGoals[1]));
-            			match.setDay(day);
+						matchId.setDay(day);
+						match.setLeagueMatchId(matchId);
                 		if(Calendar.getInstance().after(matchDate)){
                 			match.setCompleted(true);
                 		}else{
@@ -315,10 +305,29 @@ public class UploadController {
                 		}
                 		matchRepository.save(match);
                 	}
-                		
+
                 	
                 }
-                Calendar[] dates =matchRepository.getStartinAndEndingMatchesDatesBySeason(season);
+
+				List<LeagueMatch> result = matchRepository.findByLeagueMatchId_Year(season);
+
+
+
+
+					List<Calendar> alldates = result.stream().map(LeagueMatch::getDate).collect(Collectors.toList());
+
+					Calendar[] dates = new Calendar[2];
+					Calendar first = Collections.max(alldates);;
+					Calendar last = Collections.min(alldates);
+					dates[0]=first;
+					dates[1]=last;
+
+
+
+
+
+
+                //Calendar[] dates =matchRepository.getStartinAndEndingMatchesDatesByYear(season);
                 season.setStartingDate(dates[0]);
                 season.setEndingDate(dates[1]);
                 seasonRepository.save(season);
@@ -416,9 +425,9 @@ public class UploadController {
                 		performance.setGoalsScored((int)actualRow.getCell(columnMap.get(GOALS_SCORED)).getNumericCellValue());
                 		
 //                		String teamName =actualRow.getCell(columnMap.get(namesMap.get(""))).getStringCellValue();
-                		LeagueMatch match = matchRepository.findByDayAndSeasonAndHomeTeam(day, season.get(), teamRepository.findTeamByName(teamName));//findMatch(day, season.get(), teamRepository.findTeamByName(teamName));
+                		LeagueMatch match = matchRepository.findByLeagueMatchId_DayAndLeagueMatchId_YearAndLeagueMatchId_HomeTeam(day, season.get(), teamRepository.findTeamByName(teamName));//findMatch(day, season.get(), teamRepository.findTeamByName(teamName));
                 		if(match==null) {
-                			match=matchRepository.findByDayAndSeasonAndAwayTeam(day, season.get(), teamRepository.findTeamByName(teamName));
+                			match=matchRepository.findByLeagueMatchId_DayAndLeagueMatchId_YearAndLeagueMatchId_AwayTeam(day, season.get(), teamRepository.findTeamByName(teamName));
                 		}
                 		List<Player> matchPlayers = match.getPlayers();
                 		if(matchPlayers==null) {
@@ -429,7 +438,7 @@ public class UploadController {
                 			match.setPlayers(matchPlayers);
                 			matchRepository.save(match);
                 		}
-                		performance.setHomeMatch(match.getHomeTeam().getName().equalsIgnoreCase(teamName));
+                		performance.setHomeMatch(match.getLeagueMatchId().getHomeTeam().getName().equalsIgnoreCase(teamName));
                 		performanceID.setMatch(match);
                 		performance.setPenaltiesMissed((int)actualRow.getCell(columnMap.get(PENALTIES_MISSED)).getNumericCellValue());
                 		performance.setPenaltiesSaved((int)actualRow.getCell(columnMap.get(PENALTIES_SAVED)).getNumericCellValue());

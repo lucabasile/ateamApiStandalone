@@ -14,7 +14,7 @@ public interface LeagueMatchRepositoryCustom {
 	
 	public List<LeagueMatch> getDailyMatches(LeagueDay day);
 	
-	public Calendar[]  getStartinAndEndingMatchesDatesBySeason(LeagueSeason season);
+	//public Calendar[]  getStartinAndEndingMatchesDatesByYear(LeagueSeason season);
 	
 	LeagueMatch findMatch(LeagueDay day,LeagueSeason season,Team team);
 }

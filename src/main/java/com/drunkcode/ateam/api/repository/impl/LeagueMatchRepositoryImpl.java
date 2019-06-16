@@ -58,35 +58,35 @@ public class LeagueMatchRepositoryImpl extends AbstractRepositoryImpl implements
 			return null;
 	}
 	
-	@Override
-	public Calendar[]  getStartinAndEndingMatchesDatesBySeason(LeagueSeason season){
-		CriteriaBuilder builder = getCurrentSession().getCriteriaBuilder();
-		CriteriaQuery<LeagueMatch> criteria = builder.createQuery(LeagueMatch.class);
-		Root<LeagueMatch> leagueMatch = criteria.from(LeagueMatch.class);
-		getCurrentSession().beginTransaction();
-
-		List<LeagueMatch> result = getCurrentSession().createQuery(criteria.where(builder.equal(leagueMatch.get("season"),season))).list();
-
-//		List result = getCurrentSession().
-//				createCriteria(LeagueMatch.class).
-//					add(Restrictions.eq("season",season)).
-//					setProjection(Projections.projectionList().add(Projections.groupProperty("date"))).list();
-		
-		if(result.size()>0){
-			List<Calendar> alldates = result.stream().map(LeagueMatch::getDate).collect(Collectors.toList());
-
-			Calendar[] dates = new Calendar[2];
-			Calendar first =Collections.max(alldates);;
-			Calendar last = Collections.min(alldates);
-			dates[0]=first;
-			dates[1]=last;
-			
-			return dates;
-		}
-			
-		else
-			return null;
-	}
+//	@Override
+//	public Calendar[]  getStartinAndEndingMatchesDatesByYear(LeagueSeason season){
+//		CriteriaBuilder builder = getCurrentSession().getCriteriaBuilder();
+//		CriteriaQuery<LeagueMatch> criteria = builder.createQuery(LeagueMatch.class);
+//		Root<LeagueMatch> leagueMatch = criteria.from(LeagueMatch.class);
+//		getCurrentSession().beginTransaction();
+//
+//		List<LeagueMatch> result = getCurrentSession().createQuery(criteria.where(builder.equal(leagueMatch.get("season"),season))).list();
+//
+////		List result = getCurrentSession().
+////				createCriteria(LeagueMatch.class).
+////					add(Restrictions.eq("season",season)).
+////					setProjection(Projections.projectionList().add(Projections.groupProperty("date"))).list();
+//
+//		if(result.size()>0){
+//			List<Calendar> alldates = result.stream().map(LeagueMatch::getDate).collect(Collectors.toList());
+//
+//			Calendar[] dates = new Calendar[2];
+//			Calendar first =Collections.max(alldates);;
+//			Calendar last = Collections.min(alldates);
+//			dates[0]=first;
+//			dates[1]=last;
+//
+//			return dates;
+//		}
+//
+//		else
+//			return null;
+//	}
 	@Override
 	public LeagueMatch findMatch(LeagueDay day,LeagueSeason season,Team team){
 		CriteriaBuilder builder = getCurrentSession().getCriteriaBuilder();

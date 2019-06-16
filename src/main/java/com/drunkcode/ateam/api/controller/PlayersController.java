@@ -92,7 +92,7 @@ public class PlayersController {
 		
 		for(Player player: players){
 			for(LeagueDay day : days){
-				List<LeagueMatch> matches = leagueMatchRepository.findByDayAndSeason(day, season);
+				List<LeagueMatch> matches = leagueMatchRepository.findByLeagueMatchId_DayAndLeagueMatchId_Year(day, season);
 				List<LeagueMatch> playedMatches = matches.stream().filter(m->m.getPlayers().contains(player)).collect(Collectors.toList());
 				
 				playedMatches.stream().forEach(pm->{

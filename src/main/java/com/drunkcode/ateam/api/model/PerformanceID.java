@@ -2,10 +2,7 @@ package com.drunkcode.ateam.api.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import lombok.Data;
 
@@ -27,7 +24,12 @@ public class PerformanceID implements Serializable{
 	LeagueDay 		day;
 	
 	@ManyToOne
-	@JoinColumn(name="matchId")
+	@JoinColumns({
+		@JoinColumn(name="homeTeam" , insertable=false, updatable=false),
+			@JoinColumn(name = "awayTeam", insertable=false, updatable=false),
+			@JoinColumn(name="day", insertable=false, updatable=false),
+			@JoinColumn(name = "year", insertable=false, updatable=false)
+	})
 	LeagueMatch		match;
 	
 	@ManyToOne
