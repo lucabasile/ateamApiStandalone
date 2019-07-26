@@ -22,21 +22,28 @@ import com.drunkcode.ateam.api.service.strategy.IDefenseModifierCalculationStrat
  */
 public class DefenseModifierCalculationStrategy implements IDefenseModifierCalculationStrategy{
 
+	private static final int LOWER_BOUND = -5;
+	private static final double UPPER_BOUND = 4.0;
 	private final static Double MEAN_RANGE_STEP=0.25;
 	private final static Double MODIFIER_STEP=1.0;
 	
-	@SuppressWarnings("unchecked")
 	private final static Map<Integer, Double> zeroValuesMap = (Map<Integer, Double>) Stream.of(
+			new AbstractMap.SimpleImmutableEntry<>(0, 6.75),
+			new AbstractMap.SimpleImmutableEntry<>(1, 6.5),
+			new AbstractMap.SimpleImmutableEntry<>(2, 6.25),
 			new AbstractMap.SimpleImmutableEntry<>(3, 6.0),    
 			new AbstractMap.SimpleImmutableEntry<>(4, 5.75),
 			new AbstractMap.SimpleImmutableEntry<>(5, 5.5)
 	    )
 		.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-					  
-					  
-	
+					  	
 	@Override
 	public DefenseModifier calculateModifier(ArrayList<Double> evaluations) {
+		DefenseModifier defenseModifier = new DefenseModifier();
+		if(evaluations.isEmpty()) {
+			defenseModifier.setOpponentDefenseModifier(UPPER_BOUND);
+			return defenseModifier;
+		}
 		OptionalDouble average = evaluations
 	            .stream()
 	            .mapToDouble(a -> a)
@@ -44,20 +51,33 @@ public class DefenseModifierCalculationStrategy implements IDefenseModifierCalcu
 		assertTrue(average.isPresent());
 		Double zeroValue = getZeroValue(evaluations.size());
 		
-		DefenseModifier defenseModifier = new DefenseModifier();
-		defenseModifier.setOpponentDefenseModifier(-Math.floor((average.getAsDouble()-zeroValue)/MEAN_RANGE_STEP)*MODIFIER_STEP);
+		
+		double calculatedValue = -Math.floor((average.getAsDouble()-zeroValue)/MEAN_RANGE_STEP)*MODIFIER_STEP;
+		double usedValue=calculatedValue;
+		if(calculatedValue>UPPER_BOUND) {
+			usedValue=UPPER_BOUND;
+		}
+		if(calculatedValue<LOWER_BOUND) {
+			usedValue=LOWER_BOUND;
+		}
+		defenseModifier.setOpponentDefenseModifier(usedValue);
 		
 		return defenseModifier;
 	}
 	
+	/**
+	 * The zeroValue is the value of the average that gives a modifier of ZERO
+	 * this value is a function of the number of defenders
+	 * @param numberOfDefenders
+	 * @return
+	 */
 	private Double getZeroValue(int numberOfDefenders){
 	
-		Range numberOfDefendersRange= new IntRange(3, 6);
+		Range numberOfDefendersRange= new IntRange(0, 6);
 		
 		assertTrue(numberOfDefendersRange.containsInteger(numberOfDefenders));
 		
 		return zeroValuesMap.get(numberOfDefenders);
 		
 	}
-
 }

@@ -1,6 +1,7 @@
 package com.drunkcode.ateam.api.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -24,6 +25,10 @@ public class FantasyTeam implements Serializable{
 	@JoinColumn(name="userId")
 	User		user;
 	String		name;
+	
+	List<FantasyContract> contracts;
+	
+	Short remainingCredits;
 	
 
 

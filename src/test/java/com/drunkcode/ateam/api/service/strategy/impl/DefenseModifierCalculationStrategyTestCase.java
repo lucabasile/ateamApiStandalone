@@ -7,54 +7,36 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.springframework.util.StringUtils;
 
 class DefenseModifierCalculationStrategyTestCase {
 	
 	DefenseModifierCalculationStrategy strategy = new DefenseModifierCalculationStrategy();
 
 	@DisplayName("Check defense modifier calculation")
-	@ParameterizedTest(name = "{index} => d1={0}, d2={1}, d3={2}, expected={3}")
-	@CsvFileSource (resources="/defModTest_3.csv")
-	void testCalculateModifier(Double d1,Double d2,Double d3,Double expected) {
-		ArrayList<Double> evaluations = new ArrayList<Double>() {{
-			add( d1);
-			add( d2);
-			add( d3);
-			}};
+	@ParameterizedTest(name = "{index} => d1={0}, d2={1}, d3={2}, d4= {3}, d5= {4}, expected={5}")
+	@CsvFileSource (resources="/defModTest.csv")
+	void testCalculateModifier(String d1,String d2,String d3,String d4,String d5,String expected) {
+		ArrayList<Double> evaluations = new ArrayList<Double>();
+		if(!StringUtils.isEmpty(d1)) {
+			evaluations.add( Double.valueOf(d1));
+		}
+		if(!StringUtils.isEmpty(d2)) {
+			evaluations.add( Double.valueOf(d2));
+		}
+		if(!StringUtils.isEmpty(d3)) {
+			evaluations.add( Double.valueOf(d3));
+		}
+		if(!StringUtils.isEmpty(d4)) {
+			evaluations.add( Double.valueOf(d4));
+		}
+		if(!StringUtils.isEmpty(d5)) {
+			evaluations.add( Double.valueOf(d5));
+		}
+			
 		double rez = strategy.calculateModifier(evaluations).getOpponentDefenseModifier();
 		System.out.println(d1+","+d2+","+d3+",expected : "+expected+" GOT : "+rez);
-		assertTrue(rez==expected);
-	}
-	
-	@DisplayName("Check defense modifier calculation")
-	@ParameterizedTest(name = "{index} => d1={0}, d2={1}, d3={2}, d4= {3}, expected={4}")
-	@CsvFileSource (resources="/defModTest_4.csv")
-	void testCalculateModifier5(Double d1,Double d2,Double d3,Double d4,Double expected) {
-		ArrayList<Double> evaluations = new ArrayList<Double>() {{
-			add( d1);
-			add( d2);
-			add( d3);
-			add( d4);
-			}};
-		double rez = strategy.calculateModifier(evaluations).getOpponentDefenseModifier();
-		System.out.println(d1+","+d2+","+d3+","+d4+",expected : "+expected+" GOT : "+rez);
-		assertTrue(rez==expected);
-	}
-	
-	@DisplayName("Check defense modifier calculation")
-	@ParameterizedTest(name = "{index} => d1={0}, d2={1}, d3={2}, d4= {3}, d5= {4}, expected={5}")
-	@CsvFileSource (resources="/defModTest_5.csv")
-	void testCalculateModifier5(Double d1,Double d2,Double d3,Double d4,Double d5,Double expected) {
-		ArrayList<Double> evaluations = new ArrayList<Double>() {{
-			add( d1);
-			add( d2);
-			add( d3);
-			add( d4);
-			add( d5);
-			}};
-		double rez = strategy.calculateModifier(evaluations).getOpponentDefenseModifier();
-		System.out.println(d1+","+d2+","+d3+","+d4+","+d5+",expected : "+expected+" GOT : "+rez);
-		assertTrue(rez==expected);
+		assertTrue(rez==Double.valueOf(expected));
 	}
 
 }
