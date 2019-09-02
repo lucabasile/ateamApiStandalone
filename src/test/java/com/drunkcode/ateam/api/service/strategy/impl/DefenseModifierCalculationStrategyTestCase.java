@@ -35,7 +35,7 @@ class DefenseModifierCalculationStrategyTestCase {
 		}
 			
 		double rez = strategy.calculateModifier(evaluations).getOpponentDefenseModifier();
-		System.out.println(d1+","+d2+","+d3+",expected : "+expected+" GOT : "+rez);
+		//System.out.println(d1+","+d2+","+d3+",expected : "+expected+" GOT : "+rez);
 		assertTrue(rez==Double.valueOf(expected));
 	}
 
