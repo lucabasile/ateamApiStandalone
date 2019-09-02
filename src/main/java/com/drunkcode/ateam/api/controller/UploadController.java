@@ -412,6 +412,7 @@ public class UploadController {
                 		performance.setAssistsFromKick((int)actualRow.getCell(columnMap.get(ASSISTS_FROM_KICK)).getNumericCellValue());
                 		performance.setAutoGoals((int)actualRow.getCell(columnMap.get(AUTOGOALS)).getNumericCellValue());
                 		performanceID.setDay(day);
+                		//TODO:HANDLE S.V. and 6* !!!
                 		if(actualRow.getCell(columnMap.get(EVALUATION)).getCellType()==CellType.NUMERIC){
                 			double oneDecimalPlacesEvaluation = Math.floor(actualRow.getCell(columnMap.get(EVALUATION)).getNumericCellValue()*10)/10;
                 			performance.setEvaluation(oneDecimalPlacesEvaluation);
