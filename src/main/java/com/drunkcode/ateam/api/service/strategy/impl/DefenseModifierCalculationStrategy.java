@@ -1,6 +1,6 @@
 package com.drunkcode.ateam.api.service.strategy.impl;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;

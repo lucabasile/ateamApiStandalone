@@ -1,6 +1,7 @@
 package com.drunkcode.ateam.api.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import lombok.Data;
 
@@ -8,12 +9,21 @@ import lombok.Data;
 @Data
 public class FantasyLeague {
 	
+	@Id
+	long 		fantasyLeagueId;
+	
 	private String name;
 	
-	private FantasyLeagueOptions options;
+	Boolean enableExchanges;
 	
-	private FantasyRuleSet ruleset;
+	Boolean usesKeeperModifier;
 	
+	Boolean usesDefenseModifier;
 	
+	Boolean usesMidfieldModifier;
+	
+	Boolean usesAttackModifier;
+	
+	Integer maxCredits;
 	
 }

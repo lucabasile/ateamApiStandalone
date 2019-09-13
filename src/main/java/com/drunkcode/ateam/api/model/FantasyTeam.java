@@ -3,14 +3,17 @@ package com.drunkcode.ateam.api.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter @Setter
+@Entity
+@Data
 public class FantasyTeam implements Serializable{
 
 	/**
@@ -24,8 +27,11 @@ public class FantasyTeam implements Serializable{
 	@ManyToOne(targetEntity=User.class)
 	@JoinColumn(name="userId")
 	User		user;
+	
 	String		name;
 	
+	@Transient
+	@OneToMany(mappedBy="fantasyContractId")
 	List<FantasyContract> contracts;
 	
 	Short remainingCredits;
