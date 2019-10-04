@@ -16,13 +16,13 @@ public class FantasyContract {
 	@Id
 	long 		fantasyContractId;
 	
-	@ManyToOne(targetEntity=	FantasySeason.class)
-	@JoinColumn(name="startingYear",insertable=false,updatable=false)
-	FantasySeason StartingFantasySeason;
+	@ManyToOne(targetEntity=FantasySeason.class)
+	@JoinColumn(name="startingYear")
+	FantasySeason startingFantasySeason;
 	
-	@ManyToOne(targetEntity=	FantasySeason.class)
-	@JoinColumn(name="startingYear",insertable=false,updatable=false)
-	FantasySeason EndingFantasySeason;
+	@ManyToOne(targetEntity=FantasySeason.class)
+	@JoinColumn(name="endingYear")
+	FantasySeason endingFantasySeason;
 	
 	Short paidCredits;
 	
@@ -36,6 +36,5 @@ public class FantasyContract {
 	
 	@Enumerated(EnumType.STRING)
 	ContractType type;
-	
 	
 }

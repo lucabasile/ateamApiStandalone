@@ -12,12 +12,11 @@ import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
 @Component
-@Getter @Setter
+@Data
 public class LeagueSeason implements Serializable{
 	/**
 	 * 

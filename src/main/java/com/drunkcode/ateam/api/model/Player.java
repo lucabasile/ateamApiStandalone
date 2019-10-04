@@ -18,11 +18,10 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
-@Getter @Setter
+@Data
 @Component
 @EntityListeners(AuditingEntityListener.class)
 public class Player implements Serializable{

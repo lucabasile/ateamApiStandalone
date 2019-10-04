@@ -22,7 +22,7 @@ class SubstitutionsStrategyTest {
 	
 	SubstitutionsStrategy substitutionsStrategy = new SubstitutionsStrategy();
 
-	@DisplayName("Check sustitutions")
+	@DisplayName("Check substitutions")
 	@ParameterizedTest(name = "{index} => playersList={0}, benchList={1},expected={2}")
 	@CsvFileSource (resources="/substitutionsTest.csv")
 	void test(String playersList,String benchList,String expected) {
