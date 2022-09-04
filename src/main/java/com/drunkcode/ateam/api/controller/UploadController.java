@@ -59,7 +59,7 @@ public class UploadController {
 	
 //	final String BASE_FILE_PATH="/Users/lucabasile/Downloads/temporaryFiles";
 
-	@Value("${ATEAMAPI_TEMP}")
+	@Value("${ATEAMAPI_TEMP:$HOME/tmp}")
 	String BASE_FILE_PATH;//"/home/luke/tmp/fanta-tmp";
 	
 	@Autowired
